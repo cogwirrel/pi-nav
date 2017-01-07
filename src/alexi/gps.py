@@ -1,7 +1,7 @@
 import os
 from gps import gps
 import arrow
-import threading import Thread
+from threading import Thread
  
 class GpsListener(Thread):
     def __init__(self):
