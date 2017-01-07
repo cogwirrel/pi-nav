@@ -15,6 +15,9 @@ def main():
     init()
 
     try:
+        # Handy for debugging!
+        # import code
+        # code.interact(local=locals())
         while True:
             time.sleep(5)
     except (KeyboardInterrupt, SystemExit):
