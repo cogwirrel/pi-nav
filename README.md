@@ -19,29 +19,13 @@ sudo apt-get update
 sudo apt-get install gpsd gpsd-clients python-gps
 ```
 
-__Disable the default gpsd service__
-We disable this because `start.sh` spins it up.
-```
-sudo systemctl stop gpsd.socket
-sudo systemctl disable gpsd.socket
-```
-
-__Edit `/etc/default/gpsd` config so it looks like this__
+__Edit `/etc/default/gpsd` config so it doesn't auto-start__
 ```
 # Start the gpsd daemon automatically at boot time
 START_DAEMON="false"
 
 # Use USB hotplugging to add new USB devices automatically to the daemon
-USBAUTO="true"
-
-# Devices gpsd should collect to at boot time.
-# They need to be read/writeable, either by user gpsd or the group dialout.
-DEVICES="/dev/ttyUSB0"
-
-# Other options you want to pass to gpsd
-GPSD_OPTIONS=""
-
-GPSD_SOCKET="/var/run/gpsd.sock"
+USBAUTO="false"
 ```
 
 ### Building the UI
