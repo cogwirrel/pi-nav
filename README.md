@@ -2,9 +2,17 @@
 ## Navigation for Raspberry PI using USB GPS dongle
 
 ### Setup
-I don't know if this'll work for you, but I had to run the following to get data from my gps:
+I don't know if this'll work for you, but I had to run the following to get data from my gps.
 
-__One-time disable gpsd service__
+This should be a one-time thing...
+
+__Install gps stuff__
+```
+sudo apt-get update
+sudo apt-get install gpsd gpsd-clients python-gps
+```
+
+__Disable gpsd service__
 ```
 sudo systemctl stop gpsd.socket
 sudo systemctl disable gpsd.socket
