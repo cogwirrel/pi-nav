@@ -24,6 +24,7 @@ class GpsListener(Thread):
 _gps_listener = None
 
 def start():
+    global _gps_listener
     if _gps_listener is not None:
         _gps_listener.stop()
         _gps_listener.join()
