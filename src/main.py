@@ -20,7 +20,8 @@ def main():
         # import code
         # code.interact(local=locals())
         while True:
-            print "Running"
+            print "Gps data:"
+            print gps.get_data()
             time.sleep(5)
     except (KeyboardInterrupt, SystemExit):
         print "Shutting down"
