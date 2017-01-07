@@ -8,6 +8,7 @@ class Handler(BaseHTTPRequestHandler):
     def _set_headers(self):
         self.send_response(200)
         self.send_header('Content-type', 'application/json')
+        self.send_header('Access-Control-Allow-Origin', '*')
         self.end_headers()
 
     def do_GET(self):
@@ -35,7 +36,6 @@ class Server(Thread):
         while self.active:
             self._httpd.handle_request()
 
-        self._httpd.server_close()
 
     def stop(self):
         self.active = False
