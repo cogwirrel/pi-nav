@@ -33,6 +33,7 @@ def start():
     _gps_listener.start()
 
 def get_data():
+    global _gps_listener
     gps_info = _gps_listener.get()
 
     return {
@@ -47,6 +48,7 @@ def get_data():
     }
 
 def stop():
+    global _gps_listener
     _gps_listener.stop()
     _gps_listener.join()
     _gps_listener = None
