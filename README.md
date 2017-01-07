@@ -1,5 +1,5 @@
 # PI NAV
-Navigation for Raspberry PI using USB GPS dongle
+Navigation for Raspberry PI using a USB GPS dongle
 
 ## Setup
 I don't know if this'll work for you, but I had to run the following to get data from my gps dongle.
@@ -49,6 +49,11 @@ Clone the repository in the same directory as `pi-nav`.
 `cd pi-nav-ui`
 `npm install`
 `npm install -g gulp` <-- If you haven't got it already
+
+Make sure you set up your own static/demo/credentials.js copied from the example.
+See the [ffwdme.js](https://github.com/ffwdme/ffwdme.js) README for more info on credentials!
+
+Once you're done, run this to build the UI!
 `gulp build`
 
 This populates the "static" folder in `pi-nav`.
