@@ -1,6 +1,7 @@
 import alexi.gps_reader as gps
 import alexi.server as server
 import time
+import os
 
 def init():
     # Init logic goes here
@@ -19,9 +20,12 @@ def main():
         # import code
         # code.interact(local=locals())
         while True:
+            print "Running"
             time.sleep(5)
     except (KeyboardInterrupt, SystemExit):
+        print "Shutting down"
         shutdown()
+        os._exit(0)
 
 if __name__ == '__main__':
     main()
