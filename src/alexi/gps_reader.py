@@ -1,12 +1,12 @@
 import os
-from gps import gps
+import gps
 import arrow
 from threading import Thread
  
 class GpsListener(Thread):
     def __init__(self):
         Thread.__init__(self)
-        self.gps_listener = gps(mode=WATCH_ENABLE)
+        self.gps_listener = gps.gps(mode=WATCH_ENABLE)
         self.active = True
  
     def run(self):
