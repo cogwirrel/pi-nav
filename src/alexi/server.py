@@ -1,27 +1,30 @@
-from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
+from BaseHTTPServer import HTTPServer
+from SimpleHTTPServer import SimpleHTTPRequestHandler
 from threading import Thread
 
 import alexi.gps_reader as gps
 import json
+import os
 
-class Handler(BaseHTTPRequestHandler):
-    def _set_headers(self):
+class Handler(SimpleHTTPRequestHandler):
+    def _set_api_headers(self):
         self.send_response(200)
         self.send_header('Content-type', 'application/json')
         self.send_header('Access-Control-Allow-Origin', '*')
         self.end_headers()
 
     def do_GET(self):
-        response = '{}'
-
         if self.path == '/api/gps':
             response = json.dumps(gps.get_data())
+            self._set_api_headers()
+            self.wfile.write(response)
+            return
 
-        self._set_headers()
-        self.wfile.write(response)
-
-    def do_HEAD(self):
-        self._set_headers()
+        # Fall back to serving the static folder
+        current_dir = os.getcwd()
+        os.chdir('static')
+        SimpleHTTPRequestHandler.do_GET(self)
+        os.chdir(current_dir)
 
 
 class Server(Thread):
