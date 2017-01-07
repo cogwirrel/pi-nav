@@ -27,7 +27,6 @@ def start():
     global _gps_listener
     if _gps_listener is not None:
         _gps_listener.stop()
-        _gps_listener.join()
     
     _gps_listener = GpsListener()
     _gps_listener.start()
@@ -43,12 +42,10 @@ def get_data():
         'speed': gps_info.fix.speed,
         'climb': gps_info.fix.climb,
         'track': gps_info.fix.track,
-        'satellites': gps_info.satellites,
         'timestamp': gps_info.utc,
     }
 
 def stop():
     global _gps_listener
     _gps_listener.stop()
-    #_gps_listener.join()
     _gps_listener = None

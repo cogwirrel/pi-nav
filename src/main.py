@@ -1,15 +1,24 @@
 import alexi.gps_reader as gps
+import alexi.server as server
 import time
 
-def main():
+def init():
+    # Init logic goes here
     gps.start()
+    server.start()
+
+def shutdown():
+    server.stop()
+    gps.stop()
+
+def main():
+    init()
 
     try:
         while True:
-            print gps.get_data()
-            time.sleep(1)
+            time.sleep(5)
     except (KeyboardInterrupt, SystemExit):
-        gps.stop()
+        shutdown()
 
 if __name__ == '__main__':
     main()
