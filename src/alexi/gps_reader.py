@@ -2,7 +2,7 @@ import os
 import gps
 import arrow
 from threading import Thread
- 
+
 class GpsListener(Thread):
     def __init__(self):
         Thread.__init__(self)
@@ -50,5 +50,5 @@ def get_data():
 def stop():
     global _gps_listener
     _gps_listener.stop()
-    _gps_listener.join()
+    #_gps_listener.join()
     _gps_listener = None
