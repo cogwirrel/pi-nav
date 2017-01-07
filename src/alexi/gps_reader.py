@@ -43,7 +43,7 @@ def get_data():
         'climb': gps_info.fix.climb,
         'track': gps_info.fix.track,
         'satellites': gps_info.satellites,
-        'timestamp': arrow.get(gps_info.utc + 'T' + gps_info.fix.time)
+        'timestamp': gps_info.utc,
     }
 
 def stop():
