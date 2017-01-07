@@ -1,10 +1,14 @@
 # PI NAV
-## Navigation for Raspberry PI using USB GPS dongle
+Navigation for Raspberry PI using USB GPS dongle
 
-### Setup
+## Setup
 I don't know if this'll work for you, but I had to run the following to get data from my gps dongle.
 
-This should be a one-time thing...
+### Setting up the Pi to read GPS from a dongle
+
+This should all only need to be done once.
+
+__Plug in your dongle__
 
 __Install gps stuff__
 ```
@@ -36,4 +40,27 @@ GPSD_OPTIONS=""
 GPSD_SOCKET="/var/run/gpsd.sock"
 ```
 
+### Building the UI
+
+The UI can be found here: [pi-nav-ui](https://github.com/cogwirrel/pi-nav-ui)
+
+Clone the repository in the same directory as `pi-nav`.
+
+`cd pi-nav-ui`
+`npm install`
+`npm install -g gulp` <-- If you haven't got it already
+`gulp build`
+
+This populates the "static" folder in `pi-nav`.
+
+### Building pi-nav
+
+It's not really building but make sure you have the python requirements
+
+`cd pi-nav`
+`pip install -r requirements.txt`
+
+## Running pi-nav
+
+On your pi, run `start.sh` and watch the magic unfold!
 
