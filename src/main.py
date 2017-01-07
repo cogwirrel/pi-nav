@@ -1,4 +1,4 @@
-import alexi.gps as gps
+import alexi.gps_reader as gps
 
 def main():
     gps.start()
