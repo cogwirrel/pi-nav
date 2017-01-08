@@ -2,15 +2,17 @@
 
 # Default args
 NO_UI=false
+NO_KIOSK=false
 
 # Argument parsing!
-ARGS=`getopt -o '' -l no-ui -- "$@"`
+ARGS=`getopt -o '' -l no-ui,no-kiosk -- "$@"`
 
 eval set -- "$ARGS"
 
 while true ; do
     case "$1" in
         --no-ui) NO_UI=true; shift 1;;
+        --no-kiosk) NO_KIOSK=true; shift 1;;
         --) shift; break;;
     esac
 done
@@ -41,9 +43,17 @@ echo "Starting up a gpsd socket"
 sudo gpsd -n /dev/ttyUSB0 -F /var/run/gpsd.sock
 sleep 1
 
+BROWSER_ARGS=""
+
+if [ $NO_KIOSK == false ]; then
+    echo "Disabling kiosk mode"
+    BROWSER_ARGS="--kiosk $BROWSER_ARGS"
+fi
+
+BROWSER_ARGS="$BROWSER_ARGS http://localhost:5555"
 if [ $NO_UI == false ]; then
     echo "Starting user interface"
-    chromium-browser --kiosk http://localhost:5555 &
+    chromium-browser $BROWSER_ARGS &
 fi
 
 echo "Starting server"

@@ -53,6 +53,14 @@ It's not really building but make sure you have the python requirements
 `cd pi-nav`
 `sudo pip install -r requirements.txt`
 
+## Setting up your IoT credentials
+
+Set up credentials in the usual way on the AWS IoT console
+
+Download all the files and paste the appropriate ones in the `.example` files, and remove the `.example` extension
+
+Edit `config.py.example` to point to your endpoint which can also be found on the AWS IoT console, and remove the `.example` extension
+
 ## Running pi-nav
 
 Copy everything onto your pi, eg:

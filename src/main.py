@@ -1,5 +1,6 @@
 import alexi.gps_reader as gps
 import alexi.server as server
+import alexi.iot.iot as iot
 import time
 import os
 
@@ -7,8 +8,10 @@ def init():
     # Init logic goes here
     gps.start()
     server.start()
+    iot.start()
 
 def shutdown():
+    iot.stop()
     server.stop()
     gps.stop()
 

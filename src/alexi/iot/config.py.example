@@ -1,0 +1,18 @@
+# The endpoint (from AWS iot registry)
+ENDPOINT = "<SOME_ID>.iot.<REGION>.amazonaws.com"
+
+# I think the port is always 8883 for MQTT
+PORT = 8883
+
+# The client id can be whatever you like
+CLIENT_ID = "skyline-pi-client"
+
+# Where all your credentials for IOT live
+CREDENTIAL_ROOT = "/home/pi/pi-nav/src/alexi/iot/"
+
+# Obtained when generating credentials in the AWS IOT registry
+# Rename the '.example' versions of these and populate them with your credentials
+ROOT_CERTIFICATE_FILE = CREDENTIAL_ROOT + "root.certificate.pem.crt"
+CERTIFICATE_FILE      = CREDENTIAL_ROOT + "certificate.pem.crt"
+PUBLIC_KEY_FILE       = CREDENTIAL_ROOT + "public.pem.key"
+PRIVATE_KEY_FILE      = CREDENTIAL_ROOT + "private.pem.key"

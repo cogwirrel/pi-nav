@@ -5,6 +5,9 @@ from threading import Thread
 import alexi.gps_reader as gps
 import json
 import os
+from Queue import Queue
+
+_action_queue = Queue()
 
 class Handler(SimpleHTTPRequestHandler):
     def _set_api_headers(self):
@@ -14,8 +17,24 @@ class Handler(SimpleHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
+        global _action_queue
+
         if self.path == '/api/gps':
             response = json.dumps(gps.get_data())
+            self._set_api_headers()
+            self.wfile.write(response)
+            return
+
+        if self.path == '/api/poll-action':
+            response = json.dumps({
+                "action": "none",
+                "payload": {},
+            })
+
+            if not _action_queue.empty():
+                response = json.dumps(_action_queue.get())
+                _action_queue.task_done()
+
             self._set_api_headers()
             self.wfile.write(response)
             return
@@ -60,3 +79,10 @@ def stop():
     global _server
     _server.stop()
     _server = None
+
+def enqueue_action(name, payload):
+    global _action_queue
+    _action_queue.put({
+        "action": name,
+        "payload": payload,
+    })
