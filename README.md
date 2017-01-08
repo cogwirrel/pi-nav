@@ -51,7 +51,7 @@ This populates the "static" folder in `pi-nav`.
 It's not really building but make sure you have the python requirements
 
 `cd pi-nav`
-`pip install -r requirements.txt`
+`sudo pip install -r requirements.txt`
 
 ## Running pi-nav
 
