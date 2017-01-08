@@ -66,3 +66,5 @@ cd /home/pi/pi-nav
 ./start.sh
 ```
 
+You can exit the UI with Ctrl-W, and kill the server in the terminal with Ctrl-C
+
