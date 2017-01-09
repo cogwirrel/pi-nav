@@ -44,7 +44,7 @@ USBAUTO="false"
 
 ### Building the UI
 
-Building doesn't work on the pi, so please do this on another computer.
+Building this UI doesn't work on the pi, so please do this on another computer.
 
 Clone this repository and [`pi-nav-ui`](https://github.com/cogwirrel/pi-nav-ui) repository in the same directory.
 
@@ -91,6 +91,8 @@ cd /home/pi/pi-nav
 You can exit the UI with Ctrl-W, and kill the server in the terminal with Ctrl-C
 
 ## Building pi-nav-lambda
+
+Make sure you put your own google geocoding api key in `pi-nav-lambda/src/alexi/geo/config.py.example`, then remove the `.example` extension
 
 Use `./build.sh` to zip up all the source into `output/lambda_function.zip`
 
