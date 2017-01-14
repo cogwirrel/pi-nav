@@ -75,6 +75,12 @@ Download all the files and paste the appropriate ones in the `.example` files, a
 
 Edit `config.py.example` to point to your endpoint which can also be found on the AWS IoT console, and remove the `.example` extension
 
+## Setting up simpledb credentials
+
+Create a user in IAM for your pi, adding a policy which allows full access to simpledb
+
+Paste the access key id and secret key into `db/credentials.py.example` and remove the `.example` extension
+
 ## Running pi-nav
 
 Copy everything onto your pi (I recommend you put it in `/home/pi`), eg:

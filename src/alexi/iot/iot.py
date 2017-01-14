@@ -10,6 +10,7 @@ from alexi.iot.config import (ENDPOINT, PORT, CLIENT_ID,
 
 # Global client used for MQTT
 _client = None
+_shutdown = lambda: None
 
 class Topic(object):
     @staticmethod
@@ -31,9 +32,23 @@ class NavigateTo(Topic):
         payload = json.loads(message.payload)
         server.enqueue_action("navigate-to", payload)
 
+class Shutdown(Topic):
+    @staticmethod
+    def get_name():
+        return "/pi-nav/shutdown"
 
-def start():
+    @staticmethod
+    def callback(client, userdata, message):
+        print "Got request to shut down!"
+        _shutdown()
+
+
+def start(on_shutdown=_shutdown):
     global _client
+    global _shutdown
+
+    _shutdown = on_shutdown
+
     if _client is not None:
         stop()
 
@@ -56,6 +71,8 @@ def start():
 
 def stop():
     global _client
+    global _shutdown
+    _shutdown = lambda: None
     # Unsubscribe from everything and disconnect
     for topic in Topic.__subclasses__():
         _client.unsubscribe(topic.get_name())
