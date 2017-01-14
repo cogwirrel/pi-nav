@@ -40,7 +40,7 @@ class Shutdown(Topic):
     @staticmethod
     def callback(client, userdata, message):
         print "Got request to shut down!"
-        _shutdown()
+        _shutdown(switch_off=True)
 
 
 def start(on_shutdown=_shutdown):
@@ -74,8 +74,8 @@ def stop():
     global _shutdown
     _shutdown = lambda: None
     # Unsubscribe from everything and disconnect
-    for topic in Topic.__subclasses__():
-        _client.unsubscribe(topic.get_name())
-    _client.disconnect()
+    # for topic in Topic.__subclasses__():
+    #     _client.unsubscribe(topic.get_name())
+    # _client.disconnect()
 
 

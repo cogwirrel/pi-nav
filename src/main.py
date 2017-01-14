@@ -17,10 +17,10 @@ def shutdown(switch_off=False):
     iot.stop()
     server.stop()
     gps.stop()
-    # TODO switch off the pi!
     if switch_off:
-        pass
-    os._exit(0)
+        os.system("sudo shutdown -h now")
+    else:
+        os._exit(0)
 
 def main():
     init()
