@@ -29,11 +29,16 @@ def main():
         # Handy for debugging!
         # import code
         # code.interact(local=locals())
+
+        db.start_journey()
+
         while True:
-            print "Gps data:"
             gps_data = gps.get_data()
-            print gps_data
-            db.set_current_gps_data(gps_data)
+
+            if str(gps_data['latitude']) != 'nan':
+                db.set_current_gps_data(gps_data)
+                print gps_data
+
             time.sleep(DB_UPLOAD_INTERVAL)
     except (KeyboardInterrupt, SystemExit):
         print "Shutting down"

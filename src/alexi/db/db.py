@@ -4,7 +4,8 @@ import boto3
 import uuid
 from alexi.db.credentials import AWS_SECRET_KEY, AWS_ACCESS_KEY_ID, AWS_REGION
 
-DOMAIN = 'AlexiData'
+TRACKING_DOMAIN = 'AlexiData'
+EVENTS_DOMAIN = 'AlexiEventData'
 
 def _db():
     return boto3.client('sdb',
@@ -26,7 +27,14 @@ def set_current_gps_data(data):
     data['timestamp'] = arrow.utcnow().isoformat()
 
     _db().put_attributes(
-        DomainName=DOMAIN,
+        DomainName=TRACKING_DOMAIN,
         ItemName=str(uuid.uuid4()),
         Attributes=_dict_to_attributes(data)
+    )
+
+def start_journey():
+    _db().put_attributes(
+        DomainName=EVENTS_DOMAIN,
+        ItemName=str(uuid.uuid4()),
+        Attributes=_dict_to_attributes({'event': 'start_journey', 'timestamp': arrow.utcnow().isoformat()})
     )

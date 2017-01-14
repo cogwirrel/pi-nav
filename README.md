@@ -104,6 +104,13 @@ Add the following line:
 
 `@/home/pi/pi-nav/start.sh`
 
+## Create simpledb domains for pi-nav-lambda
+
+```
+aws sdb create-domain --domain-name AlexiEventData
+aws sdb create-domain --domain-name AlexiData
+```
+
 ## Building pi-nav-lambda
 
 Make sure you put your own google geocoding api key in `pi-nav-lambda/src/alexi/geo/config.py.example`, then remove the `.example` extension
@@ -111,4 +118,6 @@ Make sure you put your own google geocoding api key in `pi-nav-lambda/src/alexi/
 Use `./build.sh` to zip up all the source into `output/lambda_function.zip`
 
 Upload to lambda with `./upload.sh` (you'll want to modify it and set up your AWS credentials first though!)
+
+
 
