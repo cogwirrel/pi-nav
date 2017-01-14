@@ -17,6 +17,8 @@ while true ; do
     esac
 done
 
+# Change to where you put pi-nav
+pushd /home/pi/pi-nav/
 
 # Ugly but gpsd is flakey so it's best to kill it first!
 echo "Killing any gpsd that might be running"
@@ -58,3 +60,5 @@ fi
 
 echo "Starting server"
 python src/main.py
+
+popd

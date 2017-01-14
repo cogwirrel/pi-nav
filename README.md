@@ -77,7 +77,7 @@ Edit `config.py.example` to point to your endpoint which can also be found on th
 
 ## Running pi-nav
 
-Copy everything onto your pi, eg:
+Copy everything onto your pi (I recommend you put it in `/home/pi`), eg:
 
 `scp -r pi-nav pi@<YOUR_PI_IP_ADDRESS>:/home/pi/pi-nav`
 
@@ -89,6 +89,14 @@ cd /home/pi/pi-nav
 ```
 
 You can exit the UI with Ctrl-W, and kill the server in the terminal with Ctrl-C
+
+### Running on startup
+
+`sudo vim .config/lxsession/LXDE-pi/autostart`
+
+Add the following line:
+
+`@/home/pi/pi-nav/start.sh`
 
 ## Building pi-nav-lambda
 
