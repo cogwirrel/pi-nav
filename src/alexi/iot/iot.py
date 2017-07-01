@@ -32,6 +32,17 @@ class NavigateTo(Topic):
         payload = json.loads(message.payload)
         server.enqueue_action("navigate-to", payload)
 
+class CustomAction(Topic):
+    @staticmethod
+    def get_name():
+        return "/pi-nav/action"
+
+    @staticmethod
+    def callback(client, userdata, message):
+        print "Got custom action request: {}".format(message.payload)
+        payload = json.loads(message.payload)
+        server.enqueue_action("custom-action", payload)
+
 class Shutdown(Topic):
     @staticmethod
     def get_name():

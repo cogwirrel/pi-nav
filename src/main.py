@@ -1,3 +1,10 @@
+import logging
+
+logging.basicConfig()
+
+import eventlet
+eventlet.monkey_patch()
+
 import alexi.gps_reader as gps
 import alexi.server as server
 import alexi.iot.iot as iot
@@ -37,7 +44,7 @@ def main():
 
             if str(gps_data['latitude']) != 'nan':
                 db.set_current_gps_data(gps_data)
-                print gps_data
+                #print gps_data
 
             time.sleep(DB_UPLOAD_INTERVAL)
     except (KeyboardInterrupt, SystemExit):

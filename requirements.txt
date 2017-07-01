@@ -3,3 +3,5 @@
 arrow
 AWSIoTPythonSDK
 boto3
+flask
+flask-socketio

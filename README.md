@@ -66,6 +66,8 @@ It's not really building but make sure you have the python requirements
 
 `cd pi-nav`
 `sudo pip install -r requirements.txt`
+`sudo apt-get install python-eventlet`
+`sudo apt-get install python-socketio`
 
 ## Setting up your IoT credentials
 

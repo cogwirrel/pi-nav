@@ -1,69 +1,71 @@
-from BaseHTTPServer import HTTPServer
-from SimpleHTTPServer import SimpleHTTPRequestHandler
 from threading import Thread
-
-import alexi.gps_reader as gps
+from flask import Flask
 import json
 import os
 from Queue import Queue
+from flask_socketio import SocketIO
 
 _action_queue = Queue()
 
-class Handler(SimpleHTTPRequestHandler):
-    def _set_api_headers(self):
-        self.send_response(200)
-        self.send_header('Content-type', 'application/json')
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.end_headers()
+app = Flask(__name__, static_url_path='', static_folder='/home/pi/pi-nav/static')
+sio = SocketIO(app, logger=True, async_mode='eventlet', engineio_logger=True)
 
-    def do_GET(self):
-        global _action_queue
+@app.route('/')
+def root():
+    print "Hitting root of the site!"
+    return app.send_static_file('index.html')
 
-        if self.path == '/api/gps':
-            response = json.dumps(gps.get_data())
-            self._set_api_headers()
-            self.wfile.write(response)
-            return
+@app.route('/<path:path>')
+def static_proxy(path):
+    # send_static_file will guess the correct MIME type
+    return app.send_static_file(path)
 
-        if self.path == '/api/poll-action':
-            response = json.dumps({
-                "action": "none",
-                "payload": {},
-            })
+@sio.on('connect')
+def connect():
+    print "Something connected!"
 
-            if not _action_queue.empty():
-                response = json.dumps(_action_queue.get())
-                _action_queue.task_done()
 
-            self._set_api_headers()
-            self.wfile.write(response)
-            return
+@sio.on('jack')
+def jack(data):
+    print "Got a jack!"
+    print data
+    sio.emit('squirrel', data);
 
-        # Fall back to serving the static folder
-        current_dir = os.getcwd()
-        os.chdir('static')
-        SimpleHTTPRequestHandler.do_GET(self)
-        os.chdir(current_dir)
+
+@sio.on_error()
+def on_error(err):
+    print "Socket error"
+    print err
+
+
+def _emit(name, data):
+    global sio
+    print "{} emitted with data: {}".format(name, data)
+    sio.emit(name, data)
+
+def send_gps(data):
+    _emit('gps-update', data)
+
+
+def enqueue_action(name, payload):
+    _emit(name, payload)
 
 
 class Server(Thread):
     def __init__(self, port=5555):
         Thread.__init__(self)
         self.port = port
-        self.active = True
 
     def run(self):
-        self._httpd = HTTPServer(('', self.port), Handler)
-
-        while self.active:
-            self._httpd.handle_request()
-
+        global app
+        global sio
+        sio.run(app, port=self.port)
 
     def stop(self):
-        self.active = False
-
+        pass
 
 _server = None
+
 
 def start(port=5555):
     global _server
@@ -79,10 +81,3 @@ def stop():
     global _server
     _server.stop()
     _server = None
-
-def enqueue_action(name, payload):
-    global _action_queue
-    _action_queue.put({
-        "action": name,
-        "payload": payload,
-    })

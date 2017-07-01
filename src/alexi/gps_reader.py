@@ -2,6 +2,7 @@ import os
 import gps
 import arrow
 from threading import Thread
+import alexi.server as server
 
 class GpsListener(Thread):
     def __init__(self):
@@ -12,7 +13,21 @@ class GpsListener(Thread):
     def run(self):
         while self.active:
             # Get updates gps_listener with the latest data
-            self.gps_listener.next()
+            try:
+                self.gps_listener.next()
+
+                server.send_gps({
+                    'latitude': self.gps_listener.fix.latitude,
+                    'longitude': self.gps_listener.fix.longitude,
+                    'altitude': self.gps_listener.fix.altitude,
+                    'speed': self.gps_listener.fix.speed,
+                    'climb': self.gps_listener.fix.climb,
+                    'track': self.gps_listener.fix.track,
+                    'timestamp': self.gps_listener.utc,
+                })
+            except StopIteration as e:
+                pass
+
 
     def get(self):
         return self.gps_listener
