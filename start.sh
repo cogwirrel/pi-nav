@@ -26,6 +26,9 @@ arecord -D sysdefault:CARD=1 -f dat | aplay -f dat -B 100000 &
 # Change to where you put pi-nav
 pushd /home/pi/pi-nav/
 
+echo "Killing any python processes so we don't double run the server"
+pkill -f python
+
 # Ugly but gpsd is flakey so it's best to kill it first!
 echo "Killing any gpsd that might be running"
 sudo killall gpsd
@@ -34,28 +37,29 @@ sudo systemctl disable gpsd.socket
 sleep 1
 
 # Change 4800 to your GPS dongle's baud rate if it's different
-echo "Setting baud rate to 4800"
-sudo stty -F /dev/ttyUSB0 4800
+echo "Setting gps baud rate to 4800"
+sudo stty -F /dev/ttyNAV 4800
 sleep 1
 
 # Unplug and plug back in the usb, because the driver is flaky
-echo "Unplugging and plugging in USB"
+echo "Unplugging and plugging in GPS USB"
 sudo python src/usb_reset.py
 sleep 2
 
 # Wait until we've read a byte from the gps
 echo "Waiting to read a byte from the gps!"
-sudo dd if=/dev/ttyUSB0 bs=1 count=1
+sudo dd if=/dev/ttyNAV bs=1 count=1
 
 echo "Starting up a gpsd socket"
-sudo gpsd -n /dev/ttyUSB0 -F /var/run/gpsd.sock
+sudo gpsd -n /dev/ttyNAV -F /var/run/gpsd.sock
 sleep 1
 
 echo "Starting server"
 python src/main.py &
+sleep 2
 
-# Run in incognito mode so it doesn't complain about restoring pages
-BROWSER_ARGS="--incognito"
+# Don't say chrome crashed!
+BROWSER_ARGS="--disable-session-crashed-bubble --disable-infobars --user-data-dir=/home/pi/chrome"
 
 if [ $NO_KIOSK == false ]; then
     echo "Disabling kiosk mode"

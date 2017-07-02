@@ -40,7 +40,7 @@ def on_error(err):
 
 def _emit(name, data):
     global sio
-    print "{} emitted with data: {}".format(name, data)
+    #print "{} emitted with data: {}".format(name, data)
     sio.emit(name, data)
 
 def send_gps(data):
@@ -49,6 +49,10 @@ def send_gps(data):
 
 def enqueue_action(name, payload):
     _emit(name, payload)
+
+
+def send_ecu_update(data):
+    _emit('ecu-update', data)
 
 
 class Server(Thread):

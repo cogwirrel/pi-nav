@@ -83,6 +83,25 @@ Create a user in IAM for your pi, adding a policy which allows full access to si
 
 Paste the access key id and secret key into `db/credentials.py.example` and remove the `.example` extension
 
+## Set up udev rules for recognising devices
+
+Plug in the gps and ecu one at a time in different ports, running the following command each time:
+`udevadm info -a -n /dev/ttyUSB0 | grep KERNELS`
+
+This will show which "KERNELS" value the port has. This is where you must always plug in that device.
+Put the KERNELS value into the below udev rules so that we can more easily access the device.
+
+`sudo vim /etc/udev/rules.d/98-usb-serial.rules`
+
+```
+KERNEL=="ttyUSB*", KERNELS=="1-1.3", SYMLINK+="ttyECU"
+KERNEL=="ttyUSB*", KERNELS=="1-1.2", SYMLINK+="ttyNAV"
+```
+
+In my case, ttyECU is assigned to the bottom usb port closest to the ethernet port
+and ttyNAV is assigned to the top usb port closest to the ethernet port
+
+
 ## Running pi-nav
 
 Copy everything onto your pi (I recommend you put it in `/home/pi`), eg:
