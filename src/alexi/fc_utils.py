@@ -36,8 +36,33 @@ class FcLogger:
                         'N/A',
                         'Secondary Injector Pulse Width(mSec)',
                         'N/A']
+    # from powerfc.c but seems wrong!
+    FC_ADV_INFO_KEYS_NISSAN = [
+        "Engine Speed(rpm)",
+        "EngLoad",
+        "MAF1V",
+        "MAF2V",
+        "Primary Injector Pulse Width(mSec)",
+        "Fuel Correction",
+        "Leading Ignition Angle(deg)",
+        "Trailing Ignition Angle(deg)",
+        "BoostPres",
+        "BoostDuty",
+        "Water Temperature(deg.C)",
+        "Intake Air Temperature(deg.C)",
+        "Knock",
+        "Battery Voltage(V)",
+        "Vehicle Speed(Km/h)",
+        "MAFactivity",
+        "O2 Sensor Voltage(mV)",
+        "O2 Sensor Voltage(mV) 2",
+        "Throttle V",
+        "N/A",
+    ]
     FC_ADV_INFO_MUL = [1, 0.0001, 1, 1, 1.0/256, 1.0/256, 1, 1, 1, 212.0/256, 0.4, 0.4, 1, 1, 1, 0.1, 1, 0.1, 0.02, 1, 1.0/256, 1]
+    FC_ADV_INFO_MUL_NISSAN = [1, 1, 1, 1, 1.0/256, 1.0/256, 1, 1, 1.0/0.00256, 0.005,  1,  1, 1, 0.1, 1, 0.1, 0.02, 0.02, 1, 1]
     FC_ADV_INFO_ADD = [0, 0, 0, 0, 0, 0, -25, -25, -80, 0, 0, 0, -80, -80, 0, 0, 0, 0, 0, 0, 0, 0]
+    FC_ADV_INFO_ADD_NISSAN = [0, 0, 0, 0,       0,       0, 0, 0, 0,         0,-80,-80, 0,   0, 0,   0,    0,    0, 0, 0]
 
     def __init__(self, portName, baudRate=57600, timeout=1.0):
         self.portName = portName

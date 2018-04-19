@@ -40,6 +40,7 @@ class FcReader(Thread):
             #     'Secondary Injector Pulse Width(mSec)': '',
             #     'N/A': '',
             # }
+            #print data
 
             server.send_ecu_update(data)
             time.sleep(0.2)
